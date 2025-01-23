@@ -3,24 +3,35 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/chat.css') }}">
 {% endblock %}
 {% block content %}
-<div class="message-list">
-    {% for message in messages %}
-    {% if current_user.id == message.id_sender %}
-    <div class="container">
-        <p>{{ message.message.text }}</p>
+<main class="main">
+    <div class="message-container">
+        <div class="wraper">
+            {% for message in messages %}
+            {% if current_user.id == message.id_sender %}
+            <div class="msg-box outgoing">
+                <span class="username">1234123:</span>
+                <p>{{ message.message.text }}</p>
+            </div>
+            {% else %}
+            <div class="msg-box incoming">
+                <span class="username">1234123:</span>
+                <p>{{ message.message.text }}</p>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
     </div>
-    {% else %}
-    <div class="container darker">
-        <p>{{ message.message.text }}</p>
+
+    <div class="send-message">
+        <button class="button-refresh">
+    
+        </button>
+        <form class="form-sender" action="{{ url_for('chat', username=name ) }}" method="post" novalidate>
+            {{ send_form.csrf_token }}
+            {{ send_form.body }}
+            <button class="form-sender-button" type="submit" class="send-button"></button>
+        </form>
     </div>
-    {% endif %}
-    {% endfor %}
-</div>
-<div class="send-message">
-    <form action="{{ url_for('chat', username=name ) }}" method="post" novalidate>
-        {{ send_form.csrf_token }}
-        {{ send_form.body }}
-        <button type="submit" class="send-button">Отправить</button>
-    </form>
-</div>
+    
+</main>
 {% endblock %}

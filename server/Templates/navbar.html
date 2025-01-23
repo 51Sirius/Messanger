@@ -2,8 +2,8 @@
     <a class="logo" href="/">Porno.exe</a>
     {% if current_user.is_anonymous %}
         <div class="button-group">
-            <a href="{{ url_for('registration') }}" class="button small">Регистрация</a>
-            <a href="{{ url_for('login') }}" class="button small">Авторизация</a>
+            <a href="{{ url_for('registration') }}" class="nav-btn small">Регистрация</a>
+            <a href="{{ url_for('login') }}" class="nav-btn small">Авторизация</a>
         </div>
     {% else %}
         <div class="nav-item dropdown">
@@ -12,6 +12,7 @@
                 <li><a class="dropdown-item" href="">Профиль</a></li>
                 <li><a class="dropdown-item" href="">Настройки</a></li>
                 <li><a class="dropdown-item" href="">Помощь</a></li>
+                <li><a class="dropdown-item" href="{{ url_for('chat') }}">Чатик</a></li>
                 <li><a class="dropdown-item" href="#">&raquo; Сообщество  </a>
                     <ul class="submenu submenu-left dropdown-menu">
                         <li><a class="dropdown-item" href="">To be continue...</a></li>

@@ -2,17 +2,35 @@
     --main-font: #deeaf7;
 }
 
+.animation {
+    animation: shadowAnim 4s ease-in-out infinite;
+  }
+  
+  @keyframes shadowAnim {
+    0% {
+      box-shadow: 0px 18px 16px -40px rgba(183,79,111,0.9);
+    }
+  
+    50% {
+      box-shadow: 0px 18px 16px 5px rgba(183, 79, 111, 1);
+    }
+  
+    100% {
+      box-shadow: 0px 18px 16px -40px rgba(183,79,111,0.9);
+    }
+  }
+
 
 body {
     font-family: Tahoma, 'sans-serif';
     overflow-y: auto;
     overflow-x: hidden;
     margin: 0;
-    background: linear-gradient(to bottom, #1d154e, #3d377f, #39395b);
+        background-color: #141414;
 }
 
 .page {
-    background: linear-gradient(to bottom, #1d154e, #3d377f, #39395b);
+    background: #141414;
     min-width: 100vw;
     min-height: 100vh;
 }
@@ -27,17 +45,26 @@ main {
 
 .welcome-block {
     flex-direction: column;
-    height: 100%;
-    width: 100%;
+    min-height: 500px;
+    width: 750px;
     display: flex;
     justify-content: space-around;
     align-items: center;
+    border: 5px solid #3b3b3b;
+    border-radius: 50px;
+    background-image: url("../img/hexagon-bg.svg");
+    background-size: 15%;
+    background-position: top left;
+    background-repeat: space;
+    transition: 0.2s;
+    box-shadow: 0px 33px 61px 0px rgba(183,79,111,0.81);
+    
 }
 
 .welcome-string {
     text-align: center;
     color: var(--main-font);
-    font-size: 6vw;
+    font-size: 4vw;
 }
 
 main .button {

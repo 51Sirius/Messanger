@@ -1,12 +1,15 @@
 {% extends 'base.html' %}
+{% block custom %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/search.css') }}">
+{% endblock %}
 {% block content %}
 
-<div class="signup">
-    <form action="{{ url_for('chat') }}" method="post" novalidate>
-        <label for="chk" aria-hidden="true">Поиск собеседника</label>
+<div class="search-container animation">
+    <form class="form" action="{{ url_for('chat') }}" method="post" novalidate>
+        <label class="form-label" for="chk" aria-hidden="true">Поиск собеседника:</label>
         {{ search_form.csrf_token }}
         {{ search_form.name }}
-        <button type="submit" class="button">Поиск</button>
+        <button type="submit" class="form-button">Поиск</button>
     </form>
 </div>
 {% endblock %}

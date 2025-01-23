@@ -1,3 +1,42 @@
+.animation {
+	animation: shadowAnim 4s ease-in-out infinite;
+  }
+  
+  @keyframes shadowAnim {
+	0% {
+	  /* transform: scale(1); */
+	  box-shadow: 0px 18px 16px -40px rgba(183,79,111,0.9);
+	}
+  
+	50% {
+	  /* transform: scale(1.1); */
+	  box-shadow: 0px 18px 16px 5px rgba(183, 79, 111, 1);
+	}
+  
+	100% {
+	  /* transform: scale(1); */
+	  box-shadow: 0px 18px 16px -40px rgba(183,79,111,0.9);
+	}
+  }
+
+  .btn-animation {
+	animation: btnRotata 5s ease-in-out infinite; 
+  }
+
+  @keyframes btnRotata {
+	0% {
+	 rotate: 0deg;
+	}
+  
+	50% {
+	 rotate: 1800deg;
+	}
+  
+	100% {
+	  rotate: 3600deg;
+	}
+  }
+
 body{
 	margin: 0;
 	padding: 0;
@@ -6,11 +45,11 @@ body{
 	align-items: center;
 	min-height: 100vh;
 	font-family: 'Jost', sans-serif;
-	background: linear-gradient(to bottom, #1d154e, #3d377f, #39395b);
+	background: #141414;
 }
 .main{
 	width: 350px;
-	height: 94vh;
+	height: 50vh;
 	background: red;
 	overflow: hidden;
 	background: url("https://doc-08-2c-docs.googleusercontent.com/docs/securesc/68c90smiglihng9534mvqmq1946dmis5/fo0picsp1nhiucmc0l25s29respgpr4j/1631524275000/03522360960922298374/03522360960922298374/1Sx0jhdpEpnNIydS4rnN4kHSJtU1EyWka?e=view&authuser=0&nonce=gcrocepgbb17m&user=03522360960922298374&hash=tfhgbs86ka6divo3llbvp93mg4csvb38") no-repeat center/ cover;
@@ -54,7 +93,7 @@ button{
 	justify-content: center;
 	display: block;
 	color: #fff;
-	background: #573b8a;
+	background: rgba(183, 79, 111, 1);
 	font-size: 1em;
 	font-weight: bold;
 	margin-top: 20px;

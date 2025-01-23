@@ -94,7 +94,7 @@ def registration():
         existing_user = User.query.filter_by(username=name).first()
         if existing_user:
             abort(400)
-        wallet = "1" #request.get("")
+        wallet = "2" #request.get("")
         user = User(username=name, wallet=wallet)
         db.session.add(user)
         db.session.commit()
