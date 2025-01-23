@@ -1,0 +1,98 @@
+:root {
+    --main-font: #deeaf7;
+}
+
+
+body {
+    font-family: Tahoma, 'sans-serif';
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin: 0;
+    background: linear-gradient(to bottom, #1d154e, #3d377f, #39395b);
+}
+
+.page {
+    background: linear-gradient(to bottom, #1d154e, #3d377f, #39395b);
+    min-width: 100vw;
+    min-height: 100vh;
+}
+
+main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 60vh;
+}
+
+.welcome-block {
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.welcome-string {
+    text-align: center;
+    color: var(--main-font);
+    font-size: 6vw;
+}
+
+main .button {
+    font-size: xxx-large;
+    transition: transform .3s;
+    text-decoration: none;
+    display: block;
+    border: #F64C72 6px solid;
+    border-radius: 12vh;
+    color: white;
+    margin-right: 10px;
+    padding: 1vh 4vw 1vh 4vw;
+}
+
+.error {
+    font-size: xxx-large;
+    color: #fff;
+}
+
+@media (max-width: 600px) {
+
+
+    .welcome-string {
+        font-size: 8vw;
+    }
+
+    main .button {
+        font-size: x-large;
+        padding: 1vh 2vw 1vh 2vw;
+    }
+}
+
+@media (max-width: 400px) {
+    main .button {
+        font-size: x-large;
+        padding: 2vh 1vw 2vh 1vw;
+    }
+
+    .welcome-string {
+        font-size: x-large;
+    }
+
+
+}
+
+.flashes {
+    font-family: "Playfair Display", serif;
+    font-size: xx-large;
+    position: absolute;
+    color: white;
+    background: rgba(0, 255, 255, 0.38);
+    top: 40vh;
+    left: 30vw;
+}
+
+.flashes li {
+    list-style: none;
+}

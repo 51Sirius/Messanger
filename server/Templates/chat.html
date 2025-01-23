@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block custom %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/chat.css') }}">
+{% endblock %}
+{% block content %}
+<div class="message-list">
+    {% for message in messages %}
+    {% if current_user.id == message.id_sender %}
+    <div class="container">
+        <p>{{ message.message.text }}</p>
+    </div>
+    {% else %}
+    <div class="container darker">
+        <p>{{ message.message.text }}</p>
+    </div>
+    {% endif %}
+    {% endfor %}
+</div>
+<div class="send-message">
+    <form action="{{ url_for('chat', username=name ) }}" method="post" novalidate>
+        {{ send_form.csrf_token }}
+        {{ send_form.body }}
+        <button type="submit" class="send-button">Отправить</button>
+    </form>
+</div>
+{% endblock %}
