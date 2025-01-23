@@ -1,16 +1,9 @@
 import random
 
-from flask import Flask, render_template, request, redirect, url_for, abort, flash, jsonify
-import os
-from flask_login import LoginManager, login_user, logout_user, current_user, login_required
+from flask import Flask, render_template, request, redirect, url_for, abort, jsonify
+from flask_login import LoginManager, login_user, logout_user, current_user
 from Models.User import User, db, Message, UserMessages
-from cfg import *
 from flask_migrate import Migrate
-from werkzeug.utils import secure_filename
-from flask_wtf import FlaskForm
-from wtforms.fields import RadioField
-from wtforms.widgets import TextInput
-import ast
 from datetime import date
 from Utils.forms import *
 from cfg import DATABASE_URL, S_KEY

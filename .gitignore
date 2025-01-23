@@ -39,3 +39,6 @@ docs/_build/
 instance/
 
 cfg.py
+
+.venv
+.idea

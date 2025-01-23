@@ -1,11 +1,15 @@
+### Instalation
+
+```
+cd server
+```
+
 ```
 python -m venv .venv
 .venv/Scripts/activate
-
+pip install -r requirements.txt
 flask db init
-flask db migratge -m "Init migrate"
 ```
-
 
 ```
 python
@@ -13,7 +17,6 @@ python
 >>> from app import app
 >>> app.app = app
 >>> db.app = app
->>> db.init_app(app)
 >>> app.app_context().push()
 >>> db.create_all()
 ```

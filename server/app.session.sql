@@ -1,1 +1,0 @@
-DELETE FROM user_messages WHERE id_message==NULL;
