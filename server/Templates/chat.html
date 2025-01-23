@@ -8,13 +8,13 @@
         <div class="wraper">
             {% for message in messages %}
             {% if current_user.id == message.id_sender %}
-            <div class="msg-box outgoing">
-                <span class="username">1234123:</span>
+            <div class="msg-box outgoing" data-id="{{ message.message.id }}">
+                <span class="username">{{ message.get_sender().username }}:</span>
                 <p>{{ message.message.text }}</p>
             </div>
             {% else %}
-            <div class="msg-box incoming">
-                <span class="username">1234123:</span>
+            <div class="msg-box incoming" data-id="{{ message.message.id }}">
+                <span class="username">{{ message.get_sender().username }}:</span>
                 <p>{{ message.message.text }}</p>
             </div>
             {% endif %}
@@ -23,7 +23,7 @@
     </div>
 
     <div class="send-message">
-        <button class="button-refresh">
+        <button class="button-refresh" id="button-refresh">
     
         </button>
         <form class="form-sender" action="{{ url_for('chat', username=name ) }}" method="post" novalidate>
@@ -34,4 +34,8 @@
     </div>
     
 </main>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='scripts/update.js') }}"></script>
 {% endblock %}

@@ -144,3 +144,11 @@
   .button-refresh:hover {
     rotate: 720deg;
   }
+
+.green {
+  border: 3px solid #00ff37 ;
+}
+
+.red {
+  border: 3px solid #ff0000 ;
+}

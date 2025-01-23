@@ -59,11 +59,12 @@ def update(username):
     messages_to = UserMessages.query.filter_by(id_sender=current_user.id).filter_by(id_recipient=companion.id).all()
     messages_from = UserMessages.query.filter_by(id_sender=companion.id).filter_by(id_recipient=current_user.id).all()
     messages = messages_to + messages_from
-    messages = sorted(messages, key=lambda x: x.message.date_create, reverse=True)
+    messages = sorted(messages, key=lambda x: x.message.id, reverse=True)
     data = []
 
     for message in messages:
-        status = request.get("").json()["status"]
+        # status = request.get("").json()["status"]
+        status = True
         data.append({"id":str(message.message.id),"status":str(1 if status else 0)})
         
     return jsonify(data)
@@ -94,7 +95,7 @@ def registration():
         existing_user = User.query.filter_by(username=name).first()
         if existing_user:
             abort(400)
-        wallet = "2" #request.get("")
+        wallet = "1" #request.get("")
         user = User(username=name, wallet=wallet)
         db.session.add(user)
         db.session.commit()
@@ -130,6 +131,7 @@ def chat(username):
     if send_form.validate_on_submit():
         data = date.today().strftime("%Y/%m/%d/%I/%M/%S")
         message = Message(text=send_form.body.data, date_create=data)
+        message.set_hash(current_user.wallet)
         db.session.add(message)
         db.session.commit()
         message = Message.query.all()[-1]
@@ -141,7 +143,7 @@ def chat(username):
     messages_to = UserMessages.query.filter_by(id_sender=current_user.id).filter_by(id_recipient=companion.id).all()
     messages_from = UserMessages.query.filter_by(id_sender=companion.id).filter_by(id_recipient=current_user.id).all()
     messages = messages_to + messages_from
-    messages = sorted(messages, key=lambda x: x.message.date_create, reverse=True)
+    messages = sorted(messages, key=lambda x: x.message.id)
     count = len(messages)
     return render_template(
         'chat.html',

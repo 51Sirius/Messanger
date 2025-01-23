@@ -1,6 +1,9 @@
-document.getElementById("button-update").addEventListener("click", function() {
-    const uri = 'YOUR_URI_HERE';
+document.getElementById("button-refresh").addEventListener("click", function() {
+    tmp = document.URL.split('/')
+    tmp = tmp[tmp.length - 1]
 
+    const uri = "http://127.0.0.1:5000/update/"+tmp;
+    console.log(uri)
     fetch(uri)
         .then(response => response.json())
         .then(data => {
@@ -8,17 +11,17 @@ document.getElementById("button-update").addEventListener("click", function() {
             data.forEach(item => {
                 statusMap[item.id] = item.status;
             });
-
-            const messages = document.querySelectorAll('.message');
+            console.log(statusMap)
+            const messages = document.querySelectorAll('.msg-box');
 
             messages.forEach(message => {
                 const messageId = message.getAttribute('data-id');
                 const status = statusMap[messageId];
 
-                if (status === 1) {
+                if (status === "1") {
                     message.classList.add('green');
                     message.classList.remove('red');
-                } else if (status === 0) {
+                } else if (status === "0") {
                     message.classList.add('red');
                     message.classList.remove('green');
                 }
