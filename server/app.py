@@ -149,7 +149,7 @@ def chat(username):
     messages_from = UserMessages.query.filter_by(id_sender=companion.id).filter_by(id_recipient=current_user.id).all()
     messages = messages_to + messages_from
     messages = sorted(messages, key=lambda x: x.message.date_create, reverse=True)
-    count = len(messages_to)+len(messages_from)
+    count = len(messages)
     return render_template(
         'chat.html',
         send_form=send_form,
