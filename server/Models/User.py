@@ -26,7 +26,7 @@ class Message(db.Model):
         m.update(wallet.encode('utf-8'))
         m.update(b" "+self.text.encode('utf-8'))
         tmp = m.hexdigest()
-        self.hash = tmp[:255] if len(tmp) > 255 else tmp
+        self.hash = tmp[:200] if len(tmp) > 200 else tmp
     
 
 class UserMessages(db.Model):
