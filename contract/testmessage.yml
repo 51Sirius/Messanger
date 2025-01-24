@@ -1,0 +1,49 @@
+name: "testmessanger"
+supportedstandards: []
+safemethods: []
+events: []
+permissions:
+  - methods: '*'
+methods:
+  - name: _deploy
+    parameters:
+      - name: data
+        type: Any
+      - name: isUpdate
+        type: Boolean
+    returntype: Void
+  - name: SendMessage
+    parameters:
+      - name: key
+        type: ByteArray
+      - name: messageHash
+        type: ByteArray
+    returntype: Boolean
+  - name: FindAndCheckMessage
+    parameters:
+      - name: key
+        type: ByteArray
+      - name: messageHash
+        type: ByteArray
+    returntype: Boolean
+  - name: UpdateMessage
+    parameters:
+      - name: key
+        type: ByteArray
+      - name: messageHash
+        type: ByteArray
+    returntype: Void
+  - name: DeleteMessage
+    parameters:
+      - name: key
+        type: ByteArray
+    returntype: Void
+  - name: Update
+    parameters:
+      - name: scrypt
+        type: ByteArray
+      - name: manifest
+        type: ByteArray
+      - name: data
+        type: Any
+    returntype: Void
