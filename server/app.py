@@ -8,7 +8,7 @@ from datetime import date
 from Utils.forms import *
 from cfg import DATABASE_URL, S_KEY
 
-app = Flask(__name_,template_folder='/home/logos/Messanger-main/server/Templates/',
+app = Flask(__name__,template_folder='/home/logos/Messanger-main/server/Templates/',
             static_folder='/home/logos/Messanger-main/server/Static/')
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
