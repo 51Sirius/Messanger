@@ -1,0 +1,7 @@
+wallet: "/home/logos/frostfs-aio/wallets/wallet1.json"
+client: "web3-n3/app/userWallet.json" 
+password: ""
+rpc_endpoint: "http://localhost:30333"
+rpc_endpoint_ws: "ws://localhost:30333/ws"
+contract: "327b074c4d431633ebe9e4090a30e564b4e519da"
+listen_address: ":7777"
