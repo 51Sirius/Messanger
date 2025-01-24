@@ -1,5 +1,5 @@
 import random
-
+import requests as rq
 from flask import Flask, render_template, request, redirect, url_for, abort, jsonify
 from flask_login import LoginManager, login_user, logout_user, current_user
 from Models.User import User, db, Message, UserMessages
@@ -8,11 +8,12 @@ from datetime import date
 from Utils.forms import *
 from cfg import DATABASE_URL, S_KEY
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='/home/logos/Messanger-main/server/Templates/',
+            static_folder='/home/logos/Messanger-main/server/Static/')
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = S_KEY
-app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # Max file size = 16 megaByte
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 db.init_app(app)
 login = LoginManager(app)
 login.init_app(app)
@@ -63,12 +64,13 @@ def update(username):
     data = []
 
     for message in messages:
-        # status = request.get("").json()["status"]
-        status = True
-        data.append({"id":str(message.message.id),"status":str(1 if status else 0)})
-        
+        tmp = {
+            "key": str(message.message.id),
+            "messageHash": str(message.message.hash)
+        }
+        status = rq.post("http://localhost:7777/checkMessage", json=tmp, headers={"Content-Type": "application/json"})
+        data.append({"id":str(message.message.id),"status":str(1 if status.status_code == 200 else 0)})
     return jsonify(data)
-
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -95,7 +97,7 @@ def registration():
         existing_user = User.query.filter_by(username=name).first()
         if existing_user:
             abort(400)
-        wallet = "1" #request.get("")
+        wallet = "2" #request.get("")
         user = User(username=name, wallet=wallet)
         db.session.add(user)
         db.session.commit()
@@ -138,7 +140,6 @@ def chat(username):
         user_messages = UserMessages(id_sender=current_user.id, id_recipient=companion.id, id_message=message.id)
         db.session.add(user_messages)
         db.session.commit()
-        # request.post()
 
     messages_to = UserMessages.query.filter_by(id_sender=current_user.id).filter_by(id_recipient=companion.id).all()
     messages_from = UserMessages.query.filter_by(id_sender=companion.id).filter_by(id_recipient=current_user.id).all()
