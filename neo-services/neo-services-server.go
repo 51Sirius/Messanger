@@ -2,6 +2,10 @@ package main
 
 import (
 	"context"
+	"crypto/ecdsa"
+	"crypto/elliptic"
+	"crypto/rand"
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -281,20 +285,70 @@ func (server *Server) Listen(ctx context.Context) error {
 		}
 	})
 
-	http.DefaultServeMux.HandleFunc("/balance", func(w http.ResponseWriter, r *http.Request) {
-		server.log.Info("REQUEST BALANCE")
+	http.DefaultServeMux.HandleFunc("/wallet", func(w http.ResponseWriter, r *http.Request) {
+		server.log.Info("REQUEST CREATE Wallet")
 
-		res, err := server.gasAct.BalanceOf(server.serverAcc.ScriptHash())
+		if r.Method != http.MethodGet {
+			server.log.Error("Invalid method", zap.String("method", r.Method))
+			w.WriteHeader(http.StatusMethodNotAllowed)
+			return
+		}
+
+		privateKey, err := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
 		if err != nil {
-			server.log.Error("ERROR balance", zap.Error(err))
+			server.log.Error("Failed to generate wallet keys", zap.Error(err))
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
 
-		w.WriteHeader(http.StatusOK)
-		if _, err = w.Write([]byte(strconv.FormatInt(res.Int64(), 10))); err != nil {
-			server.log.Error("ERROR write response", zap.Error(err))
+		publicKey := append(privateKey.PublicKey.X.Bytes(), privateKey.PublicKey.Y.Bytes()...)
+
+		publicKeyHex := hex.EncodeToString(publicKey)
+
+		server.log.Info("Wallet created", zap.String("publicKey", publicKeyHex))
+
+		response := map[string]string{
+			"wallet": publicKeyHex,
 		}
+
+		w.Header().Set("Content-Type", "application/json")
+		if err := json.NewEncoder(w).Encode(response); err != nil {
+			server.log.Error("Failed to write response", zap.Error(err))
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+
+		server.log.Info("Response sent successfully")
+	})
+
+	http.DefaultServeMux.HandleFunc("/balance", func(w http.ResponseWriter, r *http.Request) {
+		server.log.Info("REQUEST BALANCE")
+		if r.Method != http.MethodGet {
+			server.log.Error("Invalid method", zap.String("method", r.Method))
+			w.WriteHeader(http.StatusMethodNotAllowed)
+			return
+		}
+
+		res, err := server.gasAct.BalanceOf(server.serverAcc.ScriptHash())
+		if err != nil {
+			server.log.Error("ERROR retrieving balance", zap.Error(err))
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+
+		response := map[string]string{
+			"balance": strconv.FormatInt(res.Int64(), 10),
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		if err := json.NewEncoder(w).Encode(response); err != nil {
+			server.log.Error("ERROR writing response", zap.Error(err))
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+
+		server.log.Info("Balance sent successfully", zap.String("balance", strconv.FormatInt(res.Int64(), 10)))
 	})
 
 	return http.ListenAndServe(viper.GetString(cfgListenAddress), nil)
