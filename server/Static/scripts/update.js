@@ -1,6 +1,5 @@
 document.getElementById("button-refresh").addEventListener("click", function() {
-    tmp = document.URL.split('/')
-    tmp = tmp[tmp.length - 1]
+    const tmp = document.querySelector('.main').getAttribute('data-id');
 
     const uri = "http://127.0.0.1:5000/update/"+tmp;
     console.log(uri)

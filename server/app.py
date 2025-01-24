@@ -8,7 +8,7 @@ from datetime import date
 from Utils.forms import *
 from cfg import DATABASE_URL, S_KEY
 
-app = Flask(__name__, template_folder='/home/logos/Messanger-main/server/Templates/',
+app = Flask(__name_,template_folder='/home/logos/Messanger-main/server/Templates/',
             static_folder='/home/logos/Messanger-main/server/Static/')
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -34,6 +34,12 @@ def logout():
 @app.route('/')
 def index():
     return render_template('index.html', title='MainPage')
+
+
+@app.route('/balance')
+def index():
+    balance = rq.get("http://localhost:7777/balance", headers={"Content-Type": "application/json"}).json()["balance"]
+    return render_template('balance.html', title='MainPage', balance=balance)
 
 
 @app.errorhandler(403)
@@ -97,7 +103,7 @@ def registration():
         existing_user = User.query.filter_by(username=name).first()
         if existing_user:
             abort(400)
-        wallet = "2" #request.get("")
+        wallet = rq.get("http://localhost:7777/wallet", headers={"Content-Type": "application/json"}).json()["wallet"]
         user = User(username=name, wallet=wallet)
         db.session.add(user)
         db.session.commit()
@@ -137,6 +143,11 @@ def chat(username):
         db.session.add(message)
         db.session.commit()
         message = Message.query.all()[-1]
+        tmp = {
+            "key": str(message.id),
+            "messageHash": str(message.hash)
+        }
+        status = rq.post("http://localhost:7777/sendMessage", json=tmp, headers={"Content-Type": "application/json"})
         user_messages = UserMessages(id_sender=current_user.id, id_recipient=companion.id, id_message=message.id)
         db.session.add(user_messages)
         db.session.commit()
@@ -151,7 +162,8 @@ def chat(username):
         send_form=send_form,
         messages=messages,
         count=count,
-        name=username)
+        name=username,
+        companion=companion)
     
 
 if __name__ == '__main__':

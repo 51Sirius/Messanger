@@ -3,7 +3,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/chat.css') }}">
 {% endblock %}
 {% block content %}
-<main class="main">
+<main class="main" data-id="{{ companion.username }}">
     <div class="message-container">
         <div class="wraper">
             {% for message in messages %}
